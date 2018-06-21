@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxf.webapi.dao.UserDao">
+	<select id="getByMobileAndPassword" resultType="User">
+		select <include refid="genericSql"/> from user where
+		<trim suffixOverrides="and">
+			<if test="mobile!=null">
+				mobile=#{mobile} and
+			</if>
+			<if test="password!=null">
+				password=#{password}
+			</if>
+		</trim>
+	</select>
+	<insert id="save" parameterType="User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				id,
+			</if>
+			<if test="mobile!=null">
+				mobile,
+			</if>
+			<if test="name!=null">
+				name,
+			</if>
+			<if test="password!=null">
+				password,
+			</if>
+			<if test="createTime!=null">
+				create_time,
+			</if>
+		</trim>
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				#{id},
+			</if>
+			<if test="mobile!=null">
+				#{mobile},
+			</if>
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="password!=null">
+				#{password},
+			</if>
+			<if test="createTime!=null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+	<delete id="delete">
+		delete user from user where mobile=#{mobile}
+	</delete>
+	<select id="getByMobile" resultType="User">
+		select <include refid="genericSql"/> from user where mobile=#{mobile}
+	</select>
+	<sql id="genericSql">
+		id,mobile,name,create_time,password
+	</sql>
+</mapper>
