@@ -23,7 +23,7 @@ import com.gxf.webapi.util.RequestContext;
 /**
  * @author 甘晓锋
  *
- *	全面接管ModelArrtibuteMethodProcessor对User对象的解析。
+ *	全面接管ModelAttributeMethodProcessor对User对象的解析。
  * 2018年6月21日
  */
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
