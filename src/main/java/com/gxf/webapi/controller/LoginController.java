@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gxf.webapi.aspect.EnableLogin;
+import com.gxf.webapi.aspect.RoutingDataSource;
 import com.gxf.webapi.entities.User;
 import com.gxf.webapi.request.UserRequest;
 import com.gxf.webapi.result.CodeMsg;
@@ -42,6 +43,7 @@ public class LoginController {
 	 * @return
 	 */
 	@GetMapping("/login")
+	@RoutingDataSource(RoutingDataSource.SLAVE)
 	@EnableLogin(repeat=true,message="重复登录")
 	public Result<String> login(@Valid UserRequest user){
 		String token = userService.login(user);
@@ -54,6 +56,7 @@ public class LoginController {
 	 * @return
 	 */
 	@GetMapping("/register")
+	@EnableLogin(repeat=true,message="请先退出当前账号")
 	public Result<String> register(@Validated(value={CreateView.class}) User user){	
 		return userService.save(user)?Result.SUCCESS("添加成功"):Result.ERROR(CodeMsg.EXISTS_USER);
 	}
